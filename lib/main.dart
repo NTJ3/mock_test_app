@@ -1,25 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:mock_test_app/core/constant/size_config.dart';
+import 'package:mock_test_app/core/constant/strings.dart';
+import '/core/util/index.dart';
+import '/ui/mock_test/bloc/mock_test.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  loggerConfigure();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Mock Test App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const Scaffold(
-        body: Center(
-          child: Text("Flutter Mock Test App"),
+  Widget build(BuildContext context) => MaterialApp(
+        title: Strings.screenTitle.kMockTestApp,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
         ),
-      ),
-    );
-  }
+        home: Builder(
+          builder: (context) {
+            SizeConfig().init(context);
+            return MockTestPage();
+          },
+        ),
+        routes: {
+          MockTestPage.tag: (context) => MockTestPage(),
+          CreateTestPage.tag: (context) => CreateTestPage(),
+        },
+      );
 }
